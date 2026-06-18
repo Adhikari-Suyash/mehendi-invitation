@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sukriti &amp; Bibhushan · Mehndi Invitation</title>
+<meta name="description" content="Join us to celebrate the Mehndi of Sukriti & Bibhushan — 10th Asar 2083, Wednesday at DreamHouse Banquets, Gokarneshwor 5." />
+<meta property="og:title" content="Sukriti & Bibhushan · Mehndi Invitation" />
+<meta property="og:description" content="You are warmly invited to our Mehndi celebration. Wear any color — all hues are welcomed!" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="assets/couple.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Cinzel:wght@500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --henna:#6b4423; --marigold:#e08a1e; --saffron:#e2701b;
+    --magenta:#c01357; --gold:#d9a521; --cream:#fdf6e7;
+    --leaf-green:#2d7a1a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+
+  /* ── BLOCK SCREEN ── */
+  #blockScreen{
+    display:none; /* shown by JS if no guest param */
+    position:fixed;inset:0;z-index:9999;
+    background:linear-gradient(135deg,#fff7e6,#fdf6e7,#ffe9c7);
+    align-items:center;justify-content:center;
+    flex-direction:column;text-align:center;
+    padding:32px 24px;
+  }
+  #blockScreen.active{ display:flex; }
+  .block-icon{ font-size:3.5rem; margin-bottom:16px; }
+  .block-title{
+    font-family:"Cinzel",serif;font-size:clamp(1.1rem,3vw,1.5rem);
+    font-weight:700;color:var(--henna);
+    letter-spacing:.1em;margin-bottom:12px;
+  }
+  .block-msg{
+    font-family:"Cormorant Garamond",serif;font-style:italic;
+    font-size:clamp(1rem,2.5vw,1.3rem);
+    color:var(--saffron);max-width:340px;line-height:1.6;
+  }
+  .block-divider{
+    display:flex;align-items:center;gap:12px;
+    color:var(--gold);margin:20px 0;width:min(280px,80%);
+  }
+  .block-divider span{flex:1;height:1px;background:linear-gradient(to right,transparent,var(--gold));}
+  .block-divider span:last-child{background:linear-gradient(to left,transparent,var(--gold));}
+  .block-sub{
+    font-family:"Cinzel",serif;font-size:clamp(.6rem,1.5vw,.72rem);
+    letter-spacing:.4em;text-transform:uppercase;color:rgba(107,68,35,.55);
+  }
+
+  /* ── MAIN PAGE ── */
+  body{
+    font-family:"Cormorant Garamond",serif;color:var(--henna);
+    background:linear-gradient(to bottom,#fff7e6,var(--cream),#ffe9c7);
+    min-height:100vh;overflow-x:hidden;
+  }
+  .glow{
+    position:fixed;inset:0;pointer-events:none;opacity:.7;
+    background:radial-gradient(ellipse at 50% 38%, rgba(224,138,30,.22), transparent 60%);
+  }
+
+  /* ── OUTER: centres card on desktop, full-width on mobile ── */
+  .outer{
+    position:relative;z-index:10;
+    display:flex;justify-content:center;
+    width:100%;
+    min-height:100vh;
+    padding:0;              /* no padding — fills edge to edge on mobile */
+  }
+
+  /* ── WRAP: the invitation column ── */
+  .wrap{
+    position:relative;     /* anchors .strand to the CARD, not the page */
+    width:100%;
+    max-width:520px;        /* caps width on desktop */
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+  }
+
+  /* on desktop, give it a card look */
+  @media(min-width:600px){
+    .outer{ padding:40px 20px 60px; align-items:flex-start; }
+    .wrap{
+      min-height:unset;
+      border-radius:28px;
+      box-shadow:
+        0 0 0 1.5px rgba(217,165,33,.45),
+        0 0 0 5px #fdf6e7,
+        0 0 0 6.5px rgba(217,165,33,.25),
+        0 28px 80px rgba(0,0,0,.13);
+      overflow:hidden;
+    }
+  }
+
+  /* ── TOP IMAGE ── */
+  .toran{
+    width:100%;display:block;
+    filter:drop-shadow(0 4px 6px rgba(0,0,0,.15));
+    animation:drop 1s ease-out both;
+  }
+  @keyframes drop{from{transform:translateY(-120px);opacity:0}to{transform:translateY(0);opacity:1}}
+
+  /* ── SIDE GARLAND STRANDS (background layer, behind text) ── */
+  .strand{
+    position:absolute;top:140px;height:260px;opacity:.9;
+    pointer-events:none;transform-origin:top center;
+    animation:sway 4s ease-in-out infinite;
+    z-index:1;              /* sits BEHIND .content */
+  }
+  .strand.left{ left:6px; }
+  .strand.right{ right:6px; animation-delay:1.2s; }
+  /* hide strands on small mobile so they don't overlap content */
+  @media(max-width:480px){.strand{display:none}}
+  @keyframes sway{0%,100%{transform:rotate(-2.5deg)}50%{transform:rotate(2.5deg)}}
+
+  /* ── CONTENT (foreground layer, always above strands) ── */
+  .content{
+    position:relative;z-index:2;
+    margin-top:-24px;flex:1;
+    display:flex;flex-direction:column;
+    align-items:center;text-align:center;
+    padding:0 clamp(16px,5vw,40px) 16px;
+  }
+
+  /* ── GUEST GREETING ── */
+  .guest-greeting{
+    display:none;
+    flex-direction:column;align-items:center;
+    margin-bottom:6px;
+  }
+  .guest-greeting.visible{ display:flex; }
+  .guest-label{
+    font-family:"Cinzel",serif;
+    font-size:clamp(.6rem,.9vw,.72rem);
+    letter-spacing:.45em;text-transform:uppercase;
+    color:var(--saffron);margin-bottom:2px;
+  }
+  .guest-name{
+    font-family:"Great Vibes",cursive;
+    font-size:clamp(2rem,6vw,3rem);
+    line-height:1.15;color:var(--magenta);
+    text-shadow:0 1px 14px rgba(217,165,33,.5);
+  }
+
+  /* ── EXISTING STYLES (unchanged) ── */
+  .eyebrow{
+    font-family:"Cinzel",serif;font-size:clamp(.62rem,.9vw,.72rem);
+    letter-spacing:.45em;text-transform:uppercase;
+    color:var(--henna);
+    background:rgba(253,246,231,.88);
+    padding:5px 14px;border-radius:20px;
+    box-shadow:0 1px 6px rgba(0,0,0,.08);
+    display:inline-block;
+  }
+  .sub{font-family:"Cinzel",serif;font-size:clamp(.78rem,1.5vw,.9rem);letter-spacing:.3em;text-transform:uppercase;color:var(--marigold);margin-top:20px;}
+  .name{font-family:"Great Vibes",cursive;font-size:clamp(3rem,9vw,4.4rem);line-height:1.1;color:var(--leaf-green);text-shadow:0 1px 14px rgba(45,122,26,.45);}
+  .amp{font-family:"Great Vibes",cursive;font-size:clamp(1.6rem,4vw,2.2rem);color:var(--saffron);margin:2px 0;}
+  .couple{
+    width:clamp(180px,50vw,260px);
+    margin-top:16px;
+    filter:drop-shadow(0 8px 12px rgba(0,0,0,.18));
+    animation:pop 1s ease-out .8s both;
+  }
+  @keyframes pop{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+  .card{
+    margin-top:20px;width:100%;max-width:340px;
+    border:1px solid rgba(217,165,33,.4);
+    background:rgba(255,255,255,.55);
+    backdrop-filter:blur(4px);
+    border-radius:24px;padding:20px 24px;
+    box-shadow:0 4px 12px rgba(0,0,0,.06);
+  }
+  .divider{display:flex;align-items:center;justify-content:center;gap:12px;color:var(--saffron);}
+  .divider span{height:1px;width:40px;background:linear-gradient(to right,transparent,var(--gold));}
+  .date{font-family:"Cinzel",serif;font-size:clamp(.9rem,2vw,1.05rem);letter-spacing:.15em;margin-top:12px;}
+  .day{font-size:clamp(1rem,2.5vw,1.2rem);font-weight:500;color:var(--saffron);}
+  .venue-label{display:flex;align-items:center;justify-content:center;gap:8px;color:var(--marigold);margin:16px 0;font-size:clamp(.62rem,.9vw,.72rem);letter-spacing:.3em;text-transform:uppercase;}
+  .venue-label span{height:1px;width:32px;background:rgba(217,165,33,.6);}
+  .venue{font-family:"Cinzel",serif;font-size:clamp(.9rem,2vw,1.05rem);}
+  .venue small{font-family:"Cormorant Garamond",serif;font-size:clamp(.9rem,2vw,1rem);color:rgba(107,68,35,.8);display:block;}
+  .quote{margin-top:20px;max-width:340px;font-size:clamp(1rem,2.5vw,1.2rem);font-style:italic;color:var(--magenta);}
+  .closing{margin-top:8px;font-family:"Cinzel",serif;font-size:clamp(.58rem,.85vw,.68rem);letter-spacing:.4em;text-transform:uppercase;color:rgba(226,112,27,.8);}
+  .flowers{margin-top:auto;width:100%;display:block;}
+  .petals{position:fixed;inset:0;z-index:20;overflow:hidden;pointer-events:none;}
+  .petal{position:absolute;top:100vh;animation:floatup linear infinite;will-change:transform;}
+  @keyframes floatup{0%{transform:translateY(0) rotate(0);opacity:.9}100%{transform:translateY(-110vh) rotate(360deg);opacity:0}}
+  @media(prefers-reduced-motion:reduce){.strand,.petal,.toran,.couple{animation:none!important}}
+</style>
+</head>
+<body>
+
+  <!-- ══ BLOCK SCREEN — shown when no guest name in URL ══ -->
+  <div id="blockScreen" role="alert" aria-live="assertive">
+    <div class="block-icon">🌸</div>
+    <h1 class="block-title">Sukriti &amp; Bibhushan<br>Mehndi Invitation</h1>
+    <div class="block-divider"><span></span>❧<span></span></div>
+    <p class="block-msg">This invitation is personalised.<br>Please use the link shared with you directly.</p>
+  </div>
+
+  <!-- ══ INVITATION — hidden until valid guest name confirmed ══ -->
+  <div class="glow"></div>
+  <div class="petals" id="petals" aria-hidden="true"></div>
+  <div class="outer" id="mainContent" style="display:none;">
+    <div class="wrap">
+      <img class="toran" src="assets/toran-top.png" alt="Festive marigold garland with bells" />
+      <img class="strand left" src="assets/garland-strand.png" alt="" aria-hidden="true" />
+      <img class="strand right" src="assets/garland-strand.png" alt="" aria-hidden="true" />
+      <div class="content">
+
+        <!-- Guest greeting -->
+        <div class="guest-greeting visible" id="guestGreeting">
+          <span class="guest-label">Dear,</span>
+          <span class="guest-name" id="guestNameEl"></span>
+        </div>
+
+        <p class="eyebrow">You are coordially invited to</p>
+        <p class="sub">Mehndi Ceremony of</p>
+        <h1 class="name">Sukriti</h1>
+        <span class="amp">&amp;</span>
+        <h1 class="name">Bibhushan</h1>
+        <img class="couple" src="assets/couple.png" alt="Illustration of Sukriti and Bibhushan in festive attire with peacocks" />
+        <div class="card">
+          <div class="divider"><span></span>❧<span></span></div>
+          <p class="date">10th Asar, 2083</p>
+          <p class="day">Wednesday</p>
+          <div class="venue-label"><span></span>Venue<span></span></div>
+          <p class="venue">DreamHouse Banquets<small>Gokarneshwor 5</small></p>
+        </div>
+        <p class="quote">"Wear any color — all hues are welcomed!"</p>
+        <p class="closing">We can't wait to celebrate with you</p>
+      </div>
+      <img class="flowers" src="assets/flowers-bottom.png" alt="" aria-hidden="true" />
+    </div>
+  </div>
+
+  <script>
+    /* ── Petals ── */
+    (function(){
+      var colors=["#f59e0b","#fbbf24","#e11d6e","#f97316","#dc2626"];
+      var c=document.getElementById("petals");
+      for(var i=0;i<18;i++){
+        var s=document.createElement("span");
+        s.className="petal";
+        var size=8+Math.random()*12;
+        s.style.left=(Math.random()*100)+"%";
+        s.style.animationDuration=(9+Math.random()*10)+"s";
+        s.style.animationDelay=(Math.random()*12)+"s";
+        s.innerHTML='<svg viewBox="0 0 20 20" width="'+size+'" height="'+size+'"><path d="M10 1 C13 5 18 7 19 11 C16 12 12 15 10 19 C8 15 4 12 1 11 C2 7 7 5 10 1 Z" fill="'+colors[i%colors.length]+'" opacity="0.85"/></svg>';
+        c.appendChild(s);
+      }
+    })();
+
+    /* ── Guest name: decrypt ?g= or read plain ?guest= ── */
+    (function(){
+      var KEY = "mehndi2083";
+      var params = new URLSearchParams(window.location.search);
+      var raw = params.get("g") || params.get("guest") || "";
+      var name = "";
+
+      if (params.get("g")) {
+        /* Encrypted: base64url → XOR → decodeURIComponent */
+        try {
+          var b64 = raw.replace(/-/g,"+").replace(/_/g,"/");
+          var bytes = atob(b64);
+          var out = "";
+          for (var i=0;i<bytes.length;i++)
+            out += String.fromCharCode(bytes.charCodeAt(i) ^ KEY.charCodeAt(i % KEY.length));
+          name = decodeURIComponent(out);
+        } catch(e){ name=""; }
+      } else if (params.get("guest")) {
+        /* Plain fallback */
+        try { name = decodeURIComponent(raw); } catch(e){ name = raw; }
+      }
+
+      if (!name) {
+        /* NO valid guest name — show block screen, hide invitation */
+        document.getElementById("blockScreen").classList.add("active");
+        return;
+      }
+
+      /* Valid — show invitation */
+      document.getElementById("guestNameEl").textContent = name;
+      document.getElementById("mainContent").style.display = "flex";
+      document.title = "Invitation for " + name + " · Sukriti & Bibhushan Mehndi";
+    })();
+  </script>
+</body>
+</html>
